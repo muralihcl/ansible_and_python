@@ -1,7 +1,6 @@
 ---
 - name: Playbook to install nginx and test connectivity
-  hosts: localhost
-  connection: local
+  hosts: al88.example.com
   gather_facts: false
   become: true
   become_method: sudo
