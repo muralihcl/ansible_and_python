@@ -19,9 +19,14 @@
         state: started
         enabled: true
     
+- name: Playbook to install nginx and test connectivity
+  hosts: localhost
+  gather_facts: false
+  become: false
+  tasks:
     - name: Check if the website is running
       uri:
-        url: "http://localhost"
+        url: "http://192.168.56.15"
         status_code: 200
       register: reg_localhost
     
