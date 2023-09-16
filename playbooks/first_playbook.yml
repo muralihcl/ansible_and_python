@@ -1,0 +1,31 @@
+---
+- name: Playbook to install nginx and test connectivity
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: true
+  become_method: sudo
+  become_user: root
+  vars:
+    app_name: nginx
+  tasks:
+    - name: Install nginx
+      yum:
+        name: "{{ app_name }}"
+        state: latest
+    
+    - name: Start the service nginx
+      service:
+        name: nginx
+        state: started
+        enabled: true
+    
+    - name: Check if the website is running
+      uri:
+        url: "http://localhost"
+        status_code: 200
+      register: reg_localhost
+    
+    - name: Display the output
+      debug:
+        msg: "{{ reg_localhost }}"
