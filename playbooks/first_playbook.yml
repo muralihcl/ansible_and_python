@@ -21,6 +21,7 @@
     
 - name: Playbook to install nginx and test connectivity
   hosts: localhost
+  connection: local
   gather_facts: false
   become: false
   tasks:
