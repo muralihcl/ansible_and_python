@@ -25,6 +25,7 @@
 - name: lamp_main | Check connectivity to the website
   hosts: localhost
   gather_facts: false
+  become: false
   tasks:
     - name: lamp_main | Include Check Task
       ansible.builtin.include_tasks:
