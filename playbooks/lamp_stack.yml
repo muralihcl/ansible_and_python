@@ -8,7 +8,7 @@
   tasks:
     - name: Include the vars file
       ansible.builtin.include_vars:
-        file: playbooks/vars.yml
+        file: /home/murali/ansible_and_python/playbooks/vars.yml
 
     - name: Install packages on the server
       ansible.builtin.yum:
