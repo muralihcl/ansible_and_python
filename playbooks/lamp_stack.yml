@@ -2,6 +2,9 @@
 - name: Playbook to install LAMP stack on Linux
   hosts: rl87.example.com
   gather_facts: false
+  become: true
+  become_method: sudo
+  become_user: root
   tasks:
     - name: Include the vars file
       ansible.builtin.include_vars:

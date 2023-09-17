@@ -1,0 +1,10 @@
+---
+common_packages:
+  - firewalld
+  - git
+db_packages:
+  - mariadb-server
+web_packages:
+  - httpd
+  - php
+  - php-mysqlnd
