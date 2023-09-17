@@ -12,10 +12,7 @@
 
     - name: Install packages on the server
       ansible.builtin.yum:
-        name:
-          - "{{ common_packages }}"
-          - "{{ db_packages }}"
-          - "{{ web_packages }}"
+        name: "{{ packages }}"
         state: latest
     
     - name: Start and enable firewalld

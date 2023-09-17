@@ -1,13 +1,12 @@
 ---
-common_packages:
+packages:
   - firewalld
   - git
-db_packages:
   - mariadb-server
-web_packages:
   - httpd
   - php
   - php-mysqlnd
+
 firewall_ports:
   - 3306
   - 80
