@@ -6,6 +6,8 @@ packages:
   - httpd
   - php
   - php-mysqlnd
+  - mysql-common
+  - python3-PyMySQL
 
 firewall_ports:
   - 3306
