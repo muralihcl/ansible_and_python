@@ -1,0 +1,31 @@
+---
+- name: Playbook to install LAMP stack on Linux
+  hosts: rl87.example.com
+  gather_facts: false
+  become: true
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Include the vars file
+      ansible.builtin.include_vars:
+        file: /home/murali/ansible_and_python/playbooks/split_vars.yml
+
+    - name: Include Common Tasks
+      ansible.builtin.include_tasks:
+        file: lamp_common.yml
+
+    - name: Include DB Tasks
+      ansible.builtin.include_tasks:
+        file: lamp_db.yml
+
+    - name: Include Web Tasks
+      ansible.builtin.include_tasks:
+        file: lamp_web.yml
+    
+- name: Check connectivity to the website
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Include Web Task
+      ansible.builtin.include_tasks:
+        file: lamp_check.yml

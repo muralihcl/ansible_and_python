@@ -1,0 +1,37 @@
+---
+- name: Install web packages on the server
+  ansible.builtin.yum:
+    name: "{{ web_packages }}"
+    state: latest
+
+- name: Add web port to firewall
+  ansible.posix.firewalld:
+    port: "{{ web_port }}/tcp"
+    state: enabled
+    immediate: true
+    permanent: true
+
+- name: Change default landing page for the website
+  ansible.builtin.replace:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: 'index.html'
+    replace: 'index.php'
+
+- name: Clone a github repository for web page
+  ansible.builtin.git:
+    repo: https://github.com/kodekloudhub/learning-app-ecommerce.git
+    dest: /var/www/html/
+    clone: yes
+    update: yes
+
+- name: Change db to localhost in the index.php file
+  ansible.builtin.replace:
+    path: /var/www/html/index.php
+    regexp: '172.20.1.101'
+    replace: 'localhost'
+
+- name: Restart the httpd service
+  ansible.builtin.service:
+    name: httpd
+    state: restarted
+    enabled: true
