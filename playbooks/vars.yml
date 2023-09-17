@@ -8,3 +8,6 @@ web_packages:
   - httpd
   - php
   - php-mysqlnd
+firewall_ports:
+  - 3306
+  - 80

@@ -8,7 +8,7 @@
   tasks:
     - name: Include the vars file
       ansible.builtin.include_vars:
-        file: vars.yml
+        file: playbooks/vars.yml
 
     - name: Install packages on the server
       ansible.builtin.yum:
@@ -36,9 +36,7 @@
         state: enabled
         immediate: true
         permanent: true
-      loop:
-        - 3306
-        - 80
+      loop: "{{ firewall_ports }}"
       loop_control:
         loop_var: firewalld_item
     
