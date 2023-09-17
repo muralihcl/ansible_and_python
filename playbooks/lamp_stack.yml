@@ -84,3 +84,16 @@
         state: restarted
         enabled: true
     
+- name: Check connectivity to the website
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Check the website if it is running
+      uri:
+        url: http://192.168.56.10
+        status_code: 200
+      register: reg_ecomwebsite
+    
+    - name: Display uri output
+      debug:
+        msg: "{{ reg_ecomwebsite }}"
