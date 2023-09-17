@@ -1,0 +1,86 @@
+---
+- name: Playbook to install LAMP stack on Linux
+  hosts: rl87.example.com
+  gather_facts: false
+  tasks:
+    - name: Include the vars file
+      ansible.builtin.include_vars:
+        file: vars.yml
+
+    - name: Install packages on the server
+      ansible.builtin.yum:
+        name:
+          - "{{ common_packages }}"
+          - "{{ db_packages }}"
+          - "{{ web_packages }}"
+        state: latest
+    
+    - name: Start and enable firewalld
+      ansible.builtin.service:
+        name: firewalld
+        state: started
+        enabled: true
+    
+    - name: Start and enable mariadb
+      ansible.builtin.service:
+        name: mariadb
+        state: started
+        enabled: true
+
+    - name: Add ports to firewall
+      ansible.posix.firewalld:
+        port: "{{ firewalld_item }}/tcp"
+        state: enabled
+        immediate: true
+        permanent: true
+      loop:
+        - 3306
+        - 80
+      loop_control:
+        loop_var: firewalld_item
+    
+    - name: Create ecomdb database
+      community.mysql.mysql_db:
+        name: ecomdb
+        state: present
+    
+    - name: Create database user and provide access
+      community.mysql.mysql_user:
+        name: ecomuser
+        password: "ecompassword"
+        host: localhost
+        priv: '*.*:ALL'
+        state: present
+    
+    - name: Insert data into the table
+      community.mysql.mysql_query:
+        login_db: ecomdb
+        query:
+          - CREATE TABLE products (id mediumint(8) unsigned NOT NULL auto_increment,Name varchar(255) default NULL,Price varchar(255) default NULL, ImageUrl varchar(255) default NULL,PRIMARY KEY (id)) AUTO_INCREMENT=1
+          - INSERT INTO products (Name,Price,ImageUrl) VALUES ("Laptop","100","c-1.png"),("Drone","200","c-2.png"),("VR","300","c-3.png"),("Tablet","50","c-5.png"),("Watch","90","c-6.png"),("Phone Covers","20","c-7.png"),("Phone","80","c-8.png"),("Laptop","150","c-4.png")
+
+    - name: Change default landing page for the website
+      ansible.builtin.replace:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: 'index.html'
+        replace: 'index.php'
+
+    - name: Clone a github repository for web page
+      ansible.builtin.git:
+        repo: https://github.com/kodekloudhub/learning-app-ecommerce.git
+        dest: /var/www/html/
+        clone: yes
+        update: yes
+
+    - name: Change db to localhost in the index.php file
+      ansible.builtin.replace:
+        path: /var/www/html/index.php
+        regexp: '172.20.1.101'
+        replace: 'localhost'
+
+    - name: Restart the httpd service
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
+        enabled: true
+    
