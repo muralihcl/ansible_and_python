@@ -14,8 +14,9 @@ rhel_db_packages:
 
 ubuntu_db_packages:
   - mysql-server
-  - mysql-common
-  - python3-PyMySQL
+  - mysql-client 
+  - python3-mysqldb
+  - libmysqlclient-dev
 
 rhel_web_packages:
   - httpd

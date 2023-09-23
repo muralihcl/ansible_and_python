@@ -16,6 +16,11 @@
     proto: tcp
     state: enabled
 
+- name: lamp_db_ubuntu | Allow root login with password
+  community.mysql.mysql_query:
+    query:
+      - ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY "{{ db_password }}"
+
 - name: lamp_db_ubuntu | Create ecomdb database
   community.mysql.mysql_db:
     name: "{{ db_name }}"
@@ -28,6 +33,15 @@
     host: localhost
     priv: '*.*:ALL'
     state: present
+
+- name: lamp_db_ubuntu | Enable remote login to mysql
+  lineinfile:
+    path: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^bind-address'
+    line: 'bind-address = 0.0.0.0'
+    backup: yes
+  notify:
+    - Restart mysql
 
 - name: lamp_db_ubuntu | Drop table products if exists
   community.mysql.mysql_query:
