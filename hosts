@@ -1,6 +1,3 @@
 [linux]
-al88.example.com ansible_host=192.168.56.15 connection_method=ssh ansible_user=murali ansible_password=murali123
-rl87.example.com ansible_host=192.168.56.10 connection_method=ssh ansible_user=murali ansible_password=murali123
-
-[local]
-localhost ansible_connection=local
+ub22.example.com ansible_host=192.168.56.13 connection_method=ssh ansible_user=murali ansible_password=murali123
+rl88.example.com ansible_host=192.168.56.10 connection_method=ssh ansible_user=murali ansible_password=murali123
