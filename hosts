@@ -1,3 +1,8 @@
-[linux]
-ub22.example.com ansible_host=192.168.56.13 connection_method=ssh ansible_user=murali ansible_password=murali123
+[rhel]
 rl88.example.com ansible_host=192.168.56.10 connection_method=ssh ansible_user=murali ansible_password=murali123
+
+[rhel:vars]
+ansible_python_interpreter=/usr/libexec/platform-python
+
+[ubuntu]
+ub22.example.com ansible_host=192.168.56.13 connection_method=ssh ansible_user=murali ansible_password=murali123
