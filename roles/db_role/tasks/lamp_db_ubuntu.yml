@@ -23,11 +23,17 @@
 
 - name: lamp_db_ubuntu | Create ecomdb database
   community.mysql.mysql_db:
+    login_host: localhost
+    login_user: root
+    login_password: "{{ db_password }}"
     name: "{{ db_name }}"
     state: present
 
 - name: lamp_db_ubuntu | Create database user and provide access
   community.mysql.mysql_user:
+    login_host: localhost
+    login_user: root
+    login_password: "{{ db_password }}"
     name: "{{ db_user }}"
     password: "{{ db_password }}"
     host: localhost
@@ -45,12 +51,18 @@
 
 - name: lamp_db_ubuntu | Drop table products if exists
   community.mysql.mysql_query:
+    login_host: localhost
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
     login_db: "{{ db_name }}"
     query:
       - DROP TABLE IF EXISTS products
 
 - name: lamp_db_ubuntu | Create table product and insert data into the table
   community.mysql.mysql_query:
+    login_host: localhost
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
     login_db: "{{ db_name }}"
     query:
       - CREATE TABLE products (id mediumint(8) unsigned NOT NULL auto_increment,Name varchar(255) default NULL,Price varchar(255) default NULL, ImageUrl varchar(255) default NULL,PRIMARY KEY (id)) AUTO_INCREMENT=1
