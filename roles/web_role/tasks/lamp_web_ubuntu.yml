@@ -10,11 +10,20 @@
     proto: tcp
     state: enabled
 
-- name: lamp_web_ubuntu | Change default landing page for the website
-  ansible.builtin.replace:
-    path: /etc/httpd/conf/httpd.conf
-    regexp: 'index.html'
-    replace: 'index.php'
+- name: lamp_web_ubuntu | Get the list of files present inside /var/www/html/
+  find:
+    paths: /var/www/html/
+    patterns: (?i).*
+    use_regex: true
+  register: reg_folder_contents
+
+- name: lamp_web_ubuntu | Cleanup the directory contents
+  file:
+    path: "{{ path_item.path }}"
+    state: absent
+  loop: "{{ reg_folder_contents.files }}"
+  loop_control:
+    loop_var: path_item
 
 - name: lamp_web_ubuntu | Clone a github repository for web page
   ansible.builtin.git:
