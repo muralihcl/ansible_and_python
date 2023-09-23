@@ -4,11 +4,10 @@
     name: "{{ ubuntu_web_packages }}"
     state: latest
 
-- name: lamp_web_ubuntu | Add web port to UFW
+- name: lamp_web_ubuntu | Add apache2 to UFW
   community.general.ufw:
-    port: "{{ web_port }}"
-    proto: tcp
-    state: enabled
+    rule: allow
+    name: "Apache Full"
 
 - name: lamp_web_ubuntu | Get the list of files present inside /var/www/html/
   find:
@@ -38,9 +37,4 @@
     path: /var/www/html/index.php
     regexp: '172.20.1.101'
     replace: 'localhost'
-
-- name: lamp_web_ubuntu | Restart the httpd service
-  ansible.builtin.service:
-    name: httpd
-    state: restarted
-    enabled: true
+  notify: Restart apache2

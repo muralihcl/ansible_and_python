@@ -11,12 +11,6 @@
     immediate: true
     permanent: true
 
-- name: lamp_web_rhel | Change default landing page for the website
-  ansible.builtin.replace:
-    path: /etc/httpd/conf/httpd.conf
-    regexp: 'index.html'
-    replace: 'index.php'
-
 - name: lamp_web_rhel | Clone a github repository for web page
   ansible.builtin.git:
     repo: https://github.com/kodekloudhub/learning-app-ecommerce.git
@@ -31,8 +25,9 @@
     regexp: '172.20.1.101'
     replace: 'localhost'
 
-- name: lamp_web_rhel | Restart the httpd service
-  ansible.builtin.service:
-    name: httpd
-    state: restarted
-    enabled: true
+- name: lamp_web_rhel | Change default landing page for the website
+  ansible.builtin.replace:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: 'index.html'
+    replace: 'index.php'
+  notify: Restart httpd

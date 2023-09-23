@@ -12,9 +12,8 @@
 
 - name: lamp_db_ubuntu | Add ports to firewall
   community.general.ufw:
-    port: "{{ db_port }}"
-    proto: tcp
-    state: enabled
+    rule: allow
+    name: "mysql"
 
 - name: lamp_db_ubuntu | Create ecomdb database
   community.mysql.mysql_db:
