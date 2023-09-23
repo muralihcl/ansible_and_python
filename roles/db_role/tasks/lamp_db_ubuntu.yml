@@ -10,10 +10,11 @@
     state: started
     enabled: true
 
-- name: lamp_db_ubuntu | Add ports to firewall
+- name: lamp_db_ubuntu | Add db port to UFW
   community.general.ufw:
     rule: allow
-    name: "mysql"
+    port: '3306'
+    proto: tcp
 
 - name: lamp_db_ubuntu | Create ecomdb database
   community.mysql.mysql_db:
