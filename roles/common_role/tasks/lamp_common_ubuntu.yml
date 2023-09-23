@@ -1,10 +1,10 @@
 ---
-- name: common_role | lamp_common_ubuntu | Install common packages on the server
+- name: lamp_common_ubuntu | lamp_common_ubuntu | Install common packages on the Ubuntu server
   ansible.builtin.apt:
     name: "{{ ubuntu_common_packages }}"
     state: latest
 
-- name: common_role | lamp_common_ubuntu | Start and enable ufw
+- name: lamp_common_ubuntu | lamp_common_ubuntu | Start and enable ufw service
   ansible.builtin.service:
     name: ufw
     state: started

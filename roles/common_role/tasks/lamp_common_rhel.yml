@@ -1,10 +1,10 @@
 ---
-- name: common_role | lamp_common_rhel | Install common packages on the server
+- name: lamp_common_rhel | lamp_common_rhel | Install common packages on the RHEL based server
   ansible.builtin.yum:
     name: "{{ rhel_common_packages }}"
     state: latest
 
-- name: common_role | lamp_common_rhel | Start and enable firewalld
+- name: lamp_common_rhel | lamp_common_rhel | Start and enable firewalld
   ansible.builtin.service:
     name: firewalld
     state: started

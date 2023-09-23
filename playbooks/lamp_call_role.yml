@@ -7,23 +7,47 @@
       ansible.builtin.include_vars:
         file: /home/murali/ansible_and_python/playbooks/role_vars.yml
 
-    - name: lamp_call_role | Include Common Tasks
-      ansible.builtin.include_tasks:
-        file: lamp_common.yml
+    - name: lamp_call_role | Include Common Tasks on Rocky
+      when: ansible_distribution_file_variety == "RedHat"
+      ansible.builtin.include_role:
+        name: common_role
+        tasks_from: lamp_common_rhel.yml
 
-    - name: lamp_call_role | Include DB Tasks
-      ansible.builtin.include_tasks:
-        file: lamp_db.yml
+    - name: lamp_call_role | Include Common Tasks on Ubuntu
+      when: ansible_distribution_file_variety == "Debian"
+      ansible.builtin.include_role:
+        name: common_role
+        tasks_from: lamp_common_ubuntu.yml
 
-    - name: lamp_call_role | Include Web Tasks
-      ansible.builtin.include_tasks:
-        file: lamp_web.yml
+    - name: lamp_call_role | Include DB Tasks on Rocky
+      when: ansible_distribution_file_variety == "RedHat"
+      ansible.builtin.include_role:
+        name: db_role
+        tasks_from: lamp_db_rhel.yml
+
+    - name: lamp_call_role | Include DB Tasks on Ubuntu
+      when: ansible_distribution_file_variety == "Debian"
+      ansible.builtin.include_role:
+        name: db_role
+        tasks_from: lamp_db_ubuntu.yml
+
+    - name: lamp_call_role | Include Web Tasks on Rocky
+      when: ansible_distribution_file_variety == "RedHat"
+      ansible.builtin.include_role:
+        name: web_role
+        tasks_from: lamp_web_rhel.yml
+
+    - name: lamp_call_role | Include Web Tasks on Ubuntu
+      when: ansible_distribution_file_variety == "Debian"
+      ansible.builtin.include_role:
+        name: web_role
+        tasks_from: lamp_web_ubuntu.yml
     
 - name: lamp_call_role | Check connectivity to the website
   hosts: localhost
   gather_facts: false
   become: false
   tasks:
-    - name: lamp_call_role | Include Check Task
+    - name: lamp_call_role | Include Check Task for both the servers
       ansible.builtin.include_tasks:
-        file: lamp_check.yml
+        file: lamp_check_role_run.yml

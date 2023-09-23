@@ -1,28 +1,28 @@
 ---
-- name: lamp_db | Install db packages on the server
+- name: lamp_db_rhel | Install db packages on the server
   ansible.builtin.yum:
-    name: "{{ db_packages }}"
+    name: "{{ rhel_db_packages }}"
     state: latest
 
-- name: lamp_db | Start and enable mariadb
+- name: lamp_db_rhel | Start and enable mariadb
   ansible.builtin.service:
     name: mariadb
     state: started
     enabled: true
 
-- name: lamp_db | Add ports to firewall
+- name: lamp_db_rhel | Add ports to firewall
   ansible.posix.firewalld:
     port: "{{ db_port }}/tcp"
     state: enabled
     immediate: true
     permanent: true
 
-- name: lamp_db | Create ecomdb database
+- name: lamp_db_rhel | Create ecomdb database
   community.mysql.mysql_db:
     name: "{{ db_name }}"
     state: present
 
-- name: lamp_db | Create database user and provide access
+- name: lamp_db_rhel | Create database user and provide access
   community.mysql.mysql_user:
     name: "{{ db_user }}"
     password: "{{ db_password }}"
@@ -30,13 +30,13 @@
     priv: '*.*:ALL'
     state: present
 
-- name: lamp_db | Drop table products if exists
+- name: lamp_db_rhel | Drop table products if exists
   community.mysql.mysql_query:
     login_db: "{{ db_name }}"
     query:
       - DROP TABLE IF EXISTS products
 
-- name: lamp_db | Create table product and insert data into the table
+- name: lamp_db_rhel | Create table product and insert data into the table
   community.mysql.mysql_query:
     login_db: "{{ db_name }}"
     query:

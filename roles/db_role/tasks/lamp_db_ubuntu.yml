@@ -1,0 +1,43 @@
+---
+- name: lamp_db_ubuntu | Install db packages on the Ubuntu server
+  ansible.builtin.apt:
+    name: "{{ ubuntu_db_packages }}"
+    state: latest
+
+- name: lamp_db_ubuntu | Start and enable mariadb
+  ansible.builtin.service:
+    name: mysql
+    state: started
+    enabled: true
+
+- name: lamp_db_ubuntu | Add ports to firewall
+  community.general.ufw:
+    port: "{{ db_port }}"
+    proto: tcp
+    state: enabled
+
+- name: lamp_db_ubuntu | Create ecomdb database
+  community.mysql.mysql_db:
+    name: "{{ db_name }}"
+    state: present
+
+- name: lamp_db_ubuntu | Create database user and provide access
+  community.mysql.mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    host: localhost
+    priv: '*.*:ALL'
+    state: present
+
+- name: lamp_db_ubuntu | Drop table products if exists
+  community.mysql.mysql_query:
+    login_db: "{{ db_name }}"
+    query:
+      - DROP TABLE IF EXISTS products
+
+- name: lamp_db_ubuntu | Create table product and insert data into the table
+  community.mysql.mysql_query:
+    login_db: "{{ db_name }}"
+    query:
+      - CREATE TABLE products (id mediumint(8) unsigned NOT NULL auto_increment,Name varchar(255) default NULL,Price varchar(255) default NULL, ImageUrl varchar(255) default NULL,PRIMARY KEY (id)) AUTO_INCREMENT=1
+      - INSERT INTO products (Name,Price,ImageUrl) VALUES ("Laptop","100","c-1.png"),("Drone","200","c-2.png"),("VR","300","c-3.png"),("Tablet","50","c-5.png"),("Watch","90","c-6.png"),("Phone Covers","20","c-7.png"),("Phone","80","c-8.png"),("Laptop","150","c-4.png")

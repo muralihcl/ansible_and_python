@@ -1,23 +1,23 @@
 ---
-- name: lamp_web | Install web packages on the server
+- name: lamp_web_rhel | Install web packages on the RHEL based server
   ansible.builtin.yum:
-    name: "{{ web_packages }}"
+    name: "{{ rhel_web_packages }}"
     state: latest
 
-- name: lamp_web | Add web port to firewall
+- name: lamp_web_rhel | Add web port to firewall
   ansible.posix.firewalld:
     port: "{{ web_port }}/tcp"
     state: enabled
     immediate: true
     permanent: true
 
-- name: lamp_web | Change default landing page for the website
+- name: lamp_web_rhel | Change default landing page for the website
   ansible.builtin.replace:
     path: /etc/httpd/conf/httpd.conf
     regexp: 'index.html'
     replace: 'index.php'
 
-- name: lamp_web | Clone a github repository for web page
+- name: lamp_web_rhel | Clone a github repository for web page
   ansible.builtin.git:
     repo: https://github.com/kodekloudhub/learning-app-ecommerce.git
     dest: /var/www/html/
@@ -25,13 +25,13 @@
     update: yes
     force: yes
 
-- name: lamp_web | Change db to localhost in the index.php file
+- name: lamp_web_rhel | Change db to localhost in the index.php file
   ansible.builtin.replace:
     path: /var/www/html/index.php
     regexp: '172.20.1.101'
     replace: 'localhost'
 
-- name: lamp_web | Restart the httpd service
+- name: lamp_web_rhel | Restart the httpd service
   ansible.builtin.service:
     name: httpd
     state: restarted
