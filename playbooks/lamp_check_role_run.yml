@@ -4,7 +4,7 @@
     status_code: 200
   register: reg_ecomwebsite_rocky
 
-- name: Display uri output
+- name: Display uri output from Rocky
   debug:
     msg: "{{ reg_ecomwebsite_rocky }}"
 
@@ -14,6 +14,6 @@
     status_code: 200
   register: reg_ecomwebsite_ubuntu
 
-- name: Display uri output
+- name: Display uri output from Ubuntu
   debug:
     msg: "{{ reg_ecomwebsite_ubuntu }}"
