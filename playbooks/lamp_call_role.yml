@@ -1,0 +1,29 @@
+---
+- name: lamp_call_role | Playbook to install LAMP stack on Linux
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: lamp_call_role | Include the vars file
+      ansible.builtin.include_vars:
+        file: /home/murali/ansible_and_python/playbooks/role_vars.yml
+
+    - name: lamp_call_role | Include Common Tasks
+      ansible.builtin.include_tasks:
+        file: lamp_common.yml
+
+    - name: lamp_call_role | Include DB Tasks
+      ansible.builtin.include_tasks:
+        file: lamp_db.yml
+
+    - name: lamp_call_role | Include Web Tasks
+      ansible.builtin.include_tasks:
+        file: lamp_web.yml
+    
+- name: lamp_call_role | Check connectivity to the website
+  hosts: localhost
+  gather_facts: false
+  become: false
+  tasks:
+    - name: lamp_call_role | Include Check Task
+      ansible.builtin.include_tasks:
+        file: lamp_check.yml
