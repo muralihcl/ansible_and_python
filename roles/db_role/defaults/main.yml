@@ -11,7 +11,7 @@ ubuntu_db_packages:
   - python3-mysqldb
   - libmysqlclient-dev
 
-db_port: 3306
+db_port: "3306"
 db_name: "ecomdb"
 db_user: "ecomuser"
 db_password: "ecompassword"
