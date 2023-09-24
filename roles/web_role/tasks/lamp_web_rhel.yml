@@ -11,6 +11,22 @@
     immediate: true
     permanent: true
 
+- name: lamp_web_rhel | Get the list of files present inside /var/www/html/
+  ansible.builtin.find:
+    paths: /var/www/html/
+    patterns: (?i).*
+    use_regex: true
+  register: reg_folder_contents
+
+- name: lamp_web_rhel | Cleanup the directory contents
+  when: reg_folder_contents.files | length > 0
+  ansible.builtin.file:
+    path: "{{ file_item.path }}"
+    state: absent
+  loop: "{{ reg_folder_contents.files }}"
+  loop_control:
+    loop_var: file_item
+
 - name: lamp_web_rhel | Clone a github repository for web page
   ansible.builtin.git:
     repo: https://github.com/kodekloudhub/learning-app-ecommerce.git
@@ -31,3 +47,7 @@
     regexp: 'index.html'
     replace: 'index.php'
   notify: Restart httpd
+
+- name: lamp_web_rhel | Display the role level variable
+  debug:
+    msg: "{{ role_level_variable}}"

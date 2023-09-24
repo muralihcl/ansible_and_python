@@ -1,2 +1,9 @@
 ---
 # defaults file for common_role
+rhel_common_packages:
+  - firewalld
+  - git
+
+ubuntu_common_packages:
+  - ufw
+  - git

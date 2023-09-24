@@ -9,3 +9,7 @@
     name: ufw
     state: started
     enabled: true
+
+- name: lamp_common_ubuntu | Display the role level variable
+  debug:
+    msg: "{{ role_level_variable}}"

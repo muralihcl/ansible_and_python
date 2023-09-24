@@ -11,19 +11,30 @@
     proto: tcp
 
 - name: lamp_web_ubuntu | Get the list of files present inside /var/www/html/
-  find:
+  ansible.builtin.find:
     paths: /var/www/html/
     patterns: (?i).*
     use_regex: true
   register: reg_folder_contents
 
 - name: lamp_web_ubuntu | Cleanup the directory contents
-  file:
-    path: "{{ path_item.path }}"
+  when: reg_folder_contents.files | length > 0
+  ansible.builtin.file:
+    path: "{{ file_item.path }}"
     state: absent
   loop: "{{ reg_folder_contents.files }}"
   loop_control:
-    loop_var: path_item
+    loop_var: file_item
+
+# - name: lamp_web_ubuntu | Cleanup and create /var/www/html
+#   ansible.builtin.file:
+#     state: "{{ file_item }}"
+#     path: /var/www/html
+#   loop:
+#     - absent
+#     - present
+#   loop_control:
+#     loop_var: file_item
 
 - name: lamp_web_ubuntu | Clone a github repository for web page
   ansible.builtin.git:
@@ -39,3 +50,7 @@
     regexp: '172.20.1.101'
     replace: 'localhost'
   notify: Restart apache2
+
+- name: lamp_web_ubuntu | Display the role level variable
+  debug:
+    msg: "{{ role_level_variable}}"

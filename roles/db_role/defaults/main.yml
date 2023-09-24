@@ -1,2 +1,17 @@
 ---
 # defaults file for db_role
+rhel_db_packages:
+  - mariadb-server
+  - mysql-common
+  - python3-PyMySQL
+
+ubuntu_db_packages:
+  - mysql-server
+  - mysql-client 
+  - python3-mysqldb
+  - libmysqlclient-dev
+
+db_port: 3306
+db_name: "ecomdb"
+db_user: "ecomuser"
+db_password: "ecompassword"
