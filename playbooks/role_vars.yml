@@ -1,2 +1,2 @@
 ---
-role_level_variable: "{{ ansible_inventory_host }}"
+role_level_variable: "{{ ansible_hostname }}"
