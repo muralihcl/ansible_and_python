@@ -53,3 +53,45 @@ my_name = "Devinder Singh"
 print(f"The value of variable my_name is {my_name}, value of variable my_name1 is {my_name1} and value of variable my_name2 is {my_name2}")
 print(f"ID of variable my_name is {id(my_name)}, ID of variable my_name1 is {id(my_name1)} and ID of variable my_name2 is {id(my_name2)}")
 
+"""
+This is a multi-line comment
+spanning across multiple lines
+"""
+
+'''
+This is also a valie method to include multi-line comment
+spanning across multiple lines
+'''
+
+# Text wrapping example with \
+my_bigger_variable_name_one = "The "
+my_bigger_variable_name_two = "quick "
+my_bigger_variable_name_three = "brown "
+my_bigger_variable_name_four = "fox "
+my_bigger_variable_name_five = "jumps "
+my_bigger_variable_name_six = "over "
+my_bigger_variable_name_seven = "the "
+my_bigger_variable_name_eight = "lazy "
+my_bigger_variable_name_nine = "dog "
+
+my_big_combined_variable = my_bigger_variable_name_one + my_bigger_variable_name_two + my_bigger_variable_name_three + my_bigger_variable_name_four + \
+    my_bigger_variable_name_five + my_bigger_variable_name_six + my_bigger_variable_name_seven + my_bigger_variable_name_eight + \
+    my_bigger_variable_name_nine
+print(my_big_combined_variable)
+
+# Combined variable assignment in
+my_name, my_age, my_weight = 'Muralidhara Kakkunje', 42, 84.5
+print(my_name, my_age, my_weight)
+
+# Swap variable values
+learner1, learner2 = 'Devinder Singh', 'Swaminathan C'
+print(learner1, learner2)
+learner1, learner2 = learner2, learner1
+print(learner1, learner2)
+
+# Chained variable assignment
+var1 = var2 = var3 = var4 = None
+print(type(var1))
+print(type(var2))
+print(type(var3))
+print(type(var4))

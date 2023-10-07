@@ -1,6 +1,6 @@
 ---
 - name: Play to install nginx and start the service
-  hosts: al88.example.com
+  hosts: all
   gather_facts: false
   become: true
   become_method: sudo
