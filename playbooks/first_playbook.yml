@@ -33,7 +33,7 @@
   become: false
   tasks:
     - name: Check if the website is running
-      loop: "{{ inventory_hostname }}"
+      loop: "{{ ansible_inventory_hosts }}"
       uri:
         url: "http://{{item}}"
         status_code: 200
