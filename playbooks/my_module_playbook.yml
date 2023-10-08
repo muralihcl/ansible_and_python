@@ -15,6 +15,12 @@
         name: hello world
         new: true
 
+    - name: Print message with change, but in check mode
+      my_module:
+        name: hello world
+        new: true
+      check_mode: true
+
     - name: Logic to fail
       my_module:
         name: fail me
