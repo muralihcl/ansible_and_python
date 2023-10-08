@@ -25,26 +25,14 @@
         name: nginx
         state: started
         enabled: true
-    
-- name: Play to check nginx connectivity 
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  become: false
-  vars:
-    client_ips:
-      - "192.168.56.10"
-      - "192.168.56.13"
-  tasks:
-    - name: Check if the website is running
-      loop: "{{ client_ips }}"
-      loop_control:
-        loop_var: ip_item
+
+    - name: Check if the connectivity to the web service is intact on both the hosts
+      delegate_to: localhost
       uri:
-        url: "http://{{ip_item}}"
+        url: "http://{{inventory_hostname}}"
         status_code: 200
       register: reg_localhost
-    
+
     - name: Display the output
       debug:
         msg: "{{ reg_localhost }}"
