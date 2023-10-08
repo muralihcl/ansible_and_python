@@ -16,7 +16,7 @@
 
     - name: Install nginx on Ubuntu
       when: ansible_distribution_file_variety == "Debian"
-      yum:
+      apt:
         name: "{{ app_name }}"
         state: latest
 
