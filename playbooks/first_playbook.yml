@@ -8,11 +8,18 @@
   vars:
     app_name: nginx
   tasks:
-    - name: Install nginx
+    - name: Install nginx on Rocky
+      when: ansible_distribution_file_variety == "RedHat"
       yum:
         name: "{{ app_name }}"
         state: latest
-    
+
+    - name: Install nginx on Ubuntu
+      when: ansible_distribution_file_variety == "Debian"
+      yum:
+        name: "{{ app_name }}"
+        state: latest
+
     - name: Start the service nginx
       service:
         name: nginx
@@ -26,8 +33,9 @@
   become: false
   tasks:
     - name: Check if the website is running
+      loop: "{{ inventory_hostname }}"
       uri:
-        url: "http://192.168.56.15"
+        url: "http://{{item}}"
         status_code: 200
       register: reg_localhost
     
