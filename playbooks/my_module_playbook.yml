@@ -6,7 +6,15 @@
   become_method: sudo
   become_user: root
   tasks:
-    - name: Print hello world
+    - name: Print message without change
+      my_module:
+        name: hello world
+
+    - name: Print message with change
       my_module:
         name: hello world
         new: true
+
+    - name: Logic to fail
+      my_module:
+        name: fail me

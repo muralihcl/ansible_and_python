@@ -7,9 +7,9 @@ __metaclass__ = type
 
 DOCUMENTATION = r'''
 ---
-module: my_module
+module: my_report
 
-short_description: This is my module
+short_description: This is my test module
 
 # If this is part of a collection, you need to use semantic versioning,
 # i.e. the version is of the form "2.5.0" and not "2.4".
@@ -40,18 +40,18 @@ author:
 EXAMPLES = r'''
 # Pass in a message
 - name: Test with a message
-  my_module:
+  my_report:
     name: hello world
 
 # pass in a message and have changed true
 - name: Test with a message and changed output
-  my_module:
+  my_report:
     name: hello world
     new: true
 
 # fail the module
 - name: Test failure of the module
-  my_module:
+  my_report:
     name: fail me
 '''
 
