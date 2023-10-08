@@ -31,11 +31,17 @@
   connection: local
   gather_facts: false
   become: false
+  vars:
+    client_ips:
+      - "192.168.56.10"
+      - "192.168.56.13"
   tasks:
     - name: Check if the website is running
-      loop: "{{ ansible_inventory_hosts }}"
+      loop: "{{ client_ips }}"
+      loop_control:
+        loop_var: ip_item
       uri:
-        url: "http://{{item}}"
+        url: "http://{{ip_item}}"
         status_code: 200
       register: reg_localhost
     
